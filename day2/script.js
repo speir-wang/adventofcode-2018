@@ -31,3 +31,23 @@ const checksum = data.reduce(
 	[0, 0]
 );
 console.log(checksum[0] * checksum[1]);
+
+/**
+ * Part 2
+ */
+const boxIDLength = data.slice(0, 1)[0].split("").length;
+for (let i = 0; i < boxIDLength; i++) {
+	const commonLetters = data
+		.map(currentBoxID => {
+			let tempBoxID = currentBoxID.slice(0).split("");
+			tempBoxID.splice(i, 1);
+
+			return tempBoxID.join("");
+		})
+		.find((boxID, index, array) => index !== array.lastIndexOf(boxID));
+
+	if (commonLetters) {
+		console.log(commonLetters);
+		break;
+	}
+}
