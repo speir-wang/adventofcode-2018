@@ -1,5 +1,7 @@
 const readInput = require("../readinput");
-const data = readInput("./input.txt").split("\n");
+const data = readInput("./input.txt")
+	.trim()
+	.split("\n");
 const { PerformanceObserver, performance } = require("perf_hooks");
 let start = performance.now();
 
@@ -25,7 +27,6 @@ data.forEach(claim => {
 
 			if (!temp.includes(o)) temp.push(o);
 			else if (!overlap.includes(o)) overlap.push(o);
-			else console.log(claimID);
 		}
 	}
 	if (y2 === 0) {
@@ -34,7 +35,6 @@ data.forEach(claim => {
 
 			if (!temp.includes(o)) temp.push(o);
 			else if (!overlap.includes(o)) overlap.push(o);
-			else console.log(claimID);
 		}
 	}
 	if (x2 !== 0 && y2 !== 0) {
@@ -44,17 +44,18 @@ data.forEach(claim => {
 
 				if (!temp.includes(o)) temp.push(o);
 				else if (!overlap.includes(o)) overlap.push(o);
-				else console.log(claimID);
 			}
 		}
 	}
 	// console.log(claimID);
 });
 console.log(overlap);
-console.log(overlap.length);
+// console.log(overlap.length);
 
 // part 2
-loop1: for (let claim of data) {
+
+mainloop: for (let claim of data) {
+	let unicorn = "";
 	let claimID = claim.split(" ")[0];
 
 	let x1 = parseInt(claim.split(" ")[2].split(",")[0]);
@@ -66,48 +67,47 @@ loop1: for (let claim of data) {
 	if (x2 === 0) {
 		for (let j = y1; j <= y2; j++) {
 			let o = x1 + "," + j;
-			let tempObject = {
-				[claimID]: false
-			};
-			if (overlap.includes(o)) {
-				continue loop1;
+			if (!overlap.includes(o)) {
+				unicorn = claimID;
 			} else {
-				tempObject[claimID] = true;
-				console.log(tempObject);
+				unicorn = "";
+				continue mainloop;
 			}
 		}
 	}
+
 	if (y2 === 0) {
 		for (let i = x1; i <= x2; i++) {
 			let o = i + "," + y1;
 
-			let tempObject = {
-				[claimID]: false
-			};
-			if (overlap.includes(o)) {
-				continue loop1;
+			if (!overlap.includes(o)) {
+				unicorn = claimID;
 			} else {
-				tempObject[claimID] = true;
-				console.log(tempObject);
+				unicorn = "";
+				continue mainloop;
 			}
 		}
 	}
+
 	if (x2 !== 0 && y2 !== 0) {
 		for (let i = x1; i <= x2; i++) {
 			for (let j = y1; j <= y2; j++) {
 				let o = i + "," + j;
-
-				let tempObject = {
-					[claimID]: false
-				};
-				if (overlap.includes(o)) {
-					continue loop1;
+				if (!overlap.includes(o)) {
+					console.log(claimID, " this id is not overlapped: ", o);
+					unicorn = claimID;
 				} else {
-					tempObject[claimID] = true;
-					console.log(tempObject);
+					unicorn = "";
+					console.log(claimID, " this overlapped: ", o);
+					continue mainloop;
 				}
 			}
 		}
+	}
+
+	if (unicorn.length > 0) {
+		console.log("unicorn: ", unicorn);
+		break mainloop;
 	}
 }
 
