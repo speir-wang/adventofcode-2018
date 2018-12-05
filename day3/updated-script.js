@@ -27,7 +27,6 @@ data.forEach(claim => {
 		}
 	}
 });
-console.log(grid);
 console.log(Object.values(grid).filter(v => v > 1).length);
 // console.log(overlap.length);
 
