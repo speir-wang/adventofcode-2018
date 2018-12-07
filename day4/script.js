@@ -18,8 +18,17 @@ const organizedDateTime = data
  * let a = [ '1518-03-31 00:03', 'Guard #223 begins shift' ]
  *
  */
-
+/**
+ * data structure:
+ * {
+ *   GuardID: {
+ *     minutesOnSleep: number of times sleep
+ *   }
+ * }
+ */
 organizedDateTime.reduce((result, record) => {
 	console.log(record);
+	let id;
+
 	// console.log(([date, time] = [record[0].split(" ")[0], record[0].split(" ")[1]]));
 }, {});
