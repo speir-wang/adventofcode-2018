@@ -7,12 +7,15 @@ const data = readInput("./input.txt")
 	.split("\n");
 const { PerformanceObserver, performance } = require("perf_hooks");
 let start = performance.now();
-/**
- * part 1
- *
- */
-grid = Object.create(null);
+// /**
+//  * part 1
+//  *
+//  */
+let grid = Object.create(null);
+
 data.forEach(claim => {
+	let claimID = claim.split(" ")[0];
+
 	let x1 = parseInt(claim.split(" ")[2].split(",")[0]);
 	let x2 = x1 + parseInt(claim.split(" ")[3].split("x")[0]) - 1;
 
@@ -21,73 +24,36 @@ data.forEach(claim => {
 
 	for (let i = x1; i <= x2; i++) {
 		for (let j = y1; j <= y2; j++) {
-			let o = i + "," + j;
-
 			grid[`${i},${j}`] = (grid[`${i},${j}`] || 0) + 1;
 		}
 	}
 });
-console.log(Object.values(grid).filter(v => v > 1).length);
-// console.log(overlap.length);
+console.log(grid);
+// console.log(Object.values(grid).filter(v => v > 1).length);
 
 // part 2
+let grid2 = Object.create(null);
+claims = Object.create(null);
+["#1 @ 1,3: 4x4", "#2 @ 3,1: 4x4", "#3 @ 5,5: 2x2"].forEach(claim => {
+	let claimID = claim.split(" ")[0];
 
-// mainloop: for (let claim of data) {
-// 	let unicorn = "";
-// 	let claimID = claim.split(" ")[0];
-
-// 	let x1 = parseInt(claim.split(" ")[2].split(",")[0]);
-// 	let x2 = x1 + parseInt(claim.split(" ")[3].split("x")[0]) - 1;
-
-// 	let y1 = parseInt(claim.split(" ")[2].split(",")[1]);
-// 	let y2 = y1 + parseInt(claim.split(" ")[3].split("x")[1]) - 1;
-
-// 	if (x2 === 0) {
-// 		for (let j = y1; j <= y2; j++) {
-// 			let o = x1 + "," + j;
-// 			if (!overlap.includes(o)) {
-// 				unicorn = claimID;
-// 			} else {
-// 				unicorn = "";
-// 				continue mainloop;
-// 			}
-// 		}
-// 	}
-
-// 	if (y2 === 0) {
-// 		for (let i = x1; i <= x2; i++) {
-// 			let o = i + "," + y1;
-
-// 			if (!overlap.includes(o)) {
-// 				unicorn = claimID;
-// 			} else {
-// 				unicorn = "";
-// 				continue mainloop;
-// 			}
-// 		}
-// 	}
-
-// 	if (x2 !== 0 && y2 !== 0) {
-// 		for (let i = x1; i <= x2; i++) {
-// 			for (let j = y1; j <= y2; j++) {
-// 				let o = i + "," + j;
-// 				if (!overlap.includes(o)) {
-// 					console.log(claimID, " this id is not overlapped: ", o);
-// 					unicorn = claimID;
-// 				} else {
-// 					unicorn = "";
-// 					console.log(claimID, " this overlapped: ", o);
-// 					continue mainloop;
-// 				}
-// 			}
-// 		}
-// 	}
-
-// 	if (unicorn.length > 0) {
-// 		console.log("unicorn: ", unicorn);
-// 		break mainloop;
-// 	}
-// }
+	let x1 = parseInt(claim.split(" ")[2].split(",")[0]);
+	let x2 = x1 + parseInt(claim.split(" ")[3].split("x")[0]) - 1;
+	claims[claimID] = true;
+	let y1 = parseInt(claim.split(" ")[2].split(",")[1]);
+	let y2 = y1 + parseInt(claim.split(" ")[3].split("x")[1]) - 1;
+	for (let i = x1; i <= x2; i++) {
+		for (let j = y1; j <= y2; j++) {
+			if (grid2[`${i},${j}`]) {
+				claims[grid2[`${i},${j}`]] = false;
+				claims[claimID] = false;
+			}
+			grid2[`${i},${j}`] = claimID;
+		}
+	}
+});
+console.log(claims);
+// console.log(Object.entries(claims).filter(v => v[1]));
 
 let end = performance.now();
 console.log((end - start) * 0.001);
