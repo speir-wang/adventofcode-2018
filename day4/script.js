@@ -26,9 +26,29 @@ const organizedDateTime = data
  *   }
  * }
  */
-organizedDateTime.reduce((result, record) => {
-	console.log(record);
+const finalResult = organizedDateTime.reduce((result, record) => {
 	let id;
+	let time = record[0];
 
-	// console.log(([date, time] = [record[0].split(" ")[0], record[0].split(" ")[1]]));
+	if (record[1].includes("#")) {
+		id = record[1].split(" ")[1];
+
+		if (!result[id]) {
+			result[id] = Object.create(null);
+			result[id].up = [];
+			result[id].totalSleepTime = 0;
+		}
+		result[id].up.push(time);
+	}
+
+	if (record[1].includes("up")) {
+		// result[id].up.push(time);
+	}
+	if (record[1].includes("asleep")) {
+		// console.log(JSON.stringify(result));
+	}
+
+	return result;
 }, {});
+
+console.log(finalResult);
