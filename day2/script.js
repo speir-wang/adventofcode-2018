@@ -1,5 +1,7 @@
 const readInput = require("../readinput");
-const data = readInput("./input.txt").split("\n");
+const data = require("./input.txt")
+	.trim()
+	.split("\n");
 /**
  *
  * Part 1

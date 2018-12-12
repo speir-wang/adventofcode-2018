@@ -1,5 +1,5 @@
 const readInput = require("../readinput");
-const data = readInput("./input.txt")
+const data = require("./input.txt")
 	.trim()
 	.split("\n");
 const { PerformanceObserver, performance } = require("perf_hooks");

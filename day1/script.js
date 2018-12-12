@@ -1,5 +1,7 @@
 const readInput = require("../readinput");
-const data = readInput("./input.txt").split("\n");
+const data = require("./input.txt")
+	.trim()
+	.split("\n");
 
 // // part 1
 const result1 = data.reduce((result, currentNumber) => result + parseInt(currentNumber), 0);
