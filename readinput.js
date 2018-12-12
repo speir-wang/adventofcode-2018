@@ -1,7 +1,13 @@
 const fs = require("fs");
 
-function readInput(filePath) {
-	return fs.readFileSync(filePath, "utf8");
-}
+require.extensions[".txt"] = function(module, filename) {
+	module.exports = fs.readFileSync(filename, "utf8");
+};
 
-module.exports = readInput;
+// const fs = require("fs");
+
+// function readInput(filePath) {
+// 	return fs.readFileSync(filePath, "utf8");
+// }
+
+module.exports = fs;
