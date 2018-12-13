@@ -98,7 +98,6 @@ const guardSleepMostOnAminute = Object.entries(organizedList).reduce(
 		let mostSleepMinute = sortable[0];
 
 		if (mostSleepMinute[1] > result.totalTimes) {
-			console.log(mostSleepMinute[1], result.totalTimes);
 			result.totalTimes = mostSleepMinute[1];
 			result.maxTotalSleepMinute = mostSleepMinute[0];
 			result.guardID = guardID;
