@@ -78,4 +78,34 @@ const lazyGuard = Object.entries(organizedList).reduce(
 	{ lazyGuard: "", maxTotalSleepTime: 0, mostSleepMinute: {} }
 );
 
-console.log(lazyGuard);
+// console.log(lazyGuard);
+
+// part 2
+const guardSleepMostOnAminute = Object.entries(organizedList).reduce(
+	(result, guard) => {
+		const guardData = { ...guard[1] };
+		const guardID = guard[0];
+
+		// find the most sleep minute
+		let sortable = [];
+		for (let minute in guardData.sleepingMinutes) {
+			sortable.push([minute, guardData.sleepingMinutes[minute]]);
+		}
+		sortable.sort(function(a, b) {
+			return b[1] - a[1];
+		});
+
+		let mostSleepMinute = sortable[0];
+
+		if (mostSleepMinute[1] > result.totalTimes) {
+			console.log(mostSleepMinute[1], result.totalTimes);
+			result.totalTimes = mostSleepMinute[1];
+			result.maxTotalSleepMinute = mostSleepMinute[0];
+			result.guardID = guardID;
+		}
+		return result;
+	},
+	{ guardID: "", maxTotalSleepMinute: 0, totalTimes: 0 }
+);
+
+console.log(guardSleepMostOnAminute);
