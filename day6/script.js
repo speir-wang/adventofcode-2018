@@ -14,7 +14,6 @@ let farestPoint = data.reduce(
 
 		let resultX = result[0],
 			resultY = result[1];
-		let xy = x + y;
 
 		if (x + y > resultX + resultY) {
 			result[0] = x;
@@ -32,16 +31,30 @@ for (let i = 0; i <= (farestPoint[0] > farestPoint[1] ? farestPoint[0] : farestP
 		map.push([i, j]);
 	}
 }
+// console.log(map);
 
+/**
+ *
+ * @param {array} currentCoordinate
+ * @param {array} locationList
+ * @param {array} farestPoint
+ */
 function findNearestLocation(currentCoordinate, locationList, farestPoint) {
 	/**
 	 * x=(a,b) and y=(c,d)
 	 * Manhattan distance: |a−c|+|b−d|
 	 */
-	let nearestLocation = [...farestPoint];
-	let numberOfSameNearestLocation = 1;
-	let nearestDistance = Math.abs(currentCoordinate[0] - nearestLocation[0]) + Math.abs(currentCoordinate[1] - nearestLocation[1]);
+	let nearestLocation = [...farestPoint],
+		numberOfSameNearestLocation = 1,
+		nearestDistance = Math.abs(currentCoordinate[0] - nearestLocation[0]) + Math.abs(currentCoordinate[1] - nearestLocation[1]);
 
+	/**
+	 * This loop is NOT correct. It should only mark the coordinate as "." if it has TWO nearest locations.
+	 * Based on the exmaple in put, current bug coordinate [4, 4] is marked as "." because it has the same M
+	 * distance from B and C, but the nearest location is D.
+	 *
+	 * Need to check if the coordinate has ONLY one nearest location.
+	 */
 	for (let i = 0; i < locationList.length; i++) {
 		let tempDistance = Math.abs(currentCoordinate[0] - locationList[i][0]) + Math.abs(currentCoordinate[1] - locationList[i][1]);
 
@@ -51,10 +64,22 @@ function findNearestLocation(currentCoordinate, locationList, farestPoint) {
 			nearestLocation = [...locationList[i]];
 		}
 
-		if (numberOfSameNearestLocation > 1) break;
+		if (numberOfSameNearestLocation > 1) {
+			return ".";
+			break;
+		}
 	}
-	console.log(nearestLocation, numberOfSameNearestLocation);
+	// console.log(nearestLocation, numberOfSameNearestLocation);
 	return nearestLocation;
 }
 
-findNearestLocation([5, 1], data, farestPoint);
+const transformedMap = map.map(coordinate => {
+	let nearestLocation = findNearestLocation(coordinate, data, farestPoint);
+	// let tempObject = Object.create(null);
+	// tempObject.nearestLocation = nearestLocation;
+	// return coordinate.push(tempObject);
+	console.log(coordinate, nearestLocation);
+	return coordinate;
+});
+
+// console.log(transformedMap);
